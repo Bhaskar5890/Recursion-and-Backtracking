@@ -1,0 +1,50 @@
+public static IList<string> RatInaMaze(int[][] maze)
+    {
+      var resList = new List<string>();
+
+      for (int i = 0; i < 7; i++)
+      {
+        visited[i] = new bool[7];
+      }
+      visited[0][0] = true;
+      Backtracking(maze, 0, 0, "", resList);
+      return resList;
+    }
+
+    public static void Backtracking(int[][] maze, int row, int col, string current, IList<string> resList)
+    {
+      if (row == maze.Length - 1 && col == maze[0].Length - 1)
+      {
+        resList.Add(current);
+        return;
+      }
+
+      if (row + 1 < maze.Length && !visited[row + 1][col] && maze[row + 1][col] == 0)
+      {
+        visited[row + 1][col] = true;
+        Backtracking(maze, row + 1, col, current + "D", resList);
+        visited[row + 1][col] = false;
+      }
+
+      if (col + 1 < maze[0].Length && !visited[row][col+1] && maze[row][col+1] == 0)
+      {
+        visited[row][col+1] = true;
+        Backtracking(maze, row, col+1, current + "R", resList);
+        visited[row][col+1] = false;
+      }
+
+      if (row - 1 >= 0 && !visited[row-1][col] && maze[row-1][col] == 0)
+      {
+        visited[row - 1][col] = true;
+        Backtracking(maze, row - 1, col, current + "U", resList);
+        visited[row - 1][col] = false;
+      }
+
+      if (col - 1 >= 0 && !visited[row][col-1] && maze[row][col-1] == 0)
+      {
+        visited[row][col-1] = true;
+        Backtracking(maze, row, col-1, current + "L", resList);
+        visited[row][col-1] = false;
+      }
+
+    }

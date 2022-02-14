@@ -1,0 +1,31 @@
+public class Solution {
+    IList<string> resultStr = new List<string>();
+    public IList<string> LetterCasePermutation(string s) 
+    {
+        BackTracking(s, 0, "");
+        return resultStr;
+    }
+    
+    public void BackTracking(string s, int index, string current)
+    {
+        if(index == s.Length)
+        {
+            resultStr.Add(current);
+            return;
+        }
+        
+        if(!Char.IsDigit(s[index]))
+        {
+            var output1 = current + char.ToLower(s[index]);
+            var output2 = current + char.ToUpper(s[index]);
+            
+            BackTracking(s, index + 1, output1);
+            BackTracking(s, index + 1, output2);
+        }
+        else
+        {
+            var output = current + s[index];
+            BackTracking(s, index + 1, output);
+        }
+    }
+}

@@ -1,0 +1,41 @@
+public class Solution {
+    List<IList<string>> resList = new List<IList<string>>();
+    public IList<IList<string>> Partition(string s) 
+    {
+        Backtracking(0, new List<string>(), s);
+        return resList;
+    }
+    
+    public void Backtracking(int index, IList<string> currentList, string s)
+    {
+        if(index >= s.Length)
+        {
+            resList.Add(new List<string>(currentList));
+            return;
+        }
+        
+        for(int j = index; j < s.Length; j++)
+        {
+            if(IsPalindrome(s, index, j))
+            {
+                currentList.Add(s.Substring(index, j-index+1));
+                Backtracking(j+1, currentList, s);
+                currentList.RemoveAt(currentList.Count - 1);
+            }
+        }
+    }
+    
+    public bool IsPalindrome(string s, int left, int right)
+    {
+        while(left < right)
+        {
+            if(s[left] != s[right])
+            {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}

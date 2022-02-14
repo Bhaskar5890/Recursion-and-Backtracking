@@ -1,0 +1,45 @@
+public class Solution {
+    public bool IsValidSudoku(char[][] board) 
+    {
+        Dictionary<(int,int), HashSet<char>> squares = new Dictionary<(int,int),HashSet<char>>();
+        Dictionary<int, HashSet<char>> rows = new Dictionary<int, HashSet<char>>();
+        Dictionary<int, HashSet<char>> cols = new Dictionary<int, HashSet<char>>();
+        
+        int k = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                rows.Add(k, new HashSet<char>());
+                cols.Add(k, new HashSet<char>());
+                squares.Add((i,j), new HashSet<char>());
+                k++;
+            }
+        }
+        
+        for(int r = 0; r < board.Length; r++)
+        {
+            for(int c = 0; c < board[0].Length; c++)
+            {
+                
+                var ele = board[r][c];
+                if(ele == '.')
+                {
+                    continue;
+                }
+                else
+                {
+                    if(rows[r].Contains(ele) || cols[c].Contains(ele) || squares[(r/3, c/3)].Contains(ele))
+                    {
+                        return false;
+                    }
+                    rows[r].Add(ele);
+                    cols[c].Add(ele);
+                    squares[(r/3,c/3)].Add(ele);
+                }
+            }
+        }
+        
+        return true;
+    }
+}

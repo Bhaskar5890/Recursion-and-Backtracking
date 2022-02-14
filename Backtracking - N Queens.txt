@@ -1,0 +1,55 @@
+public class Solution {
+    List<IList<string>> resList = new List<IList<string>>();
+    HashSet<int> columns = new HashSet<int>();
+    HashSet<int> positiveDiag = new HashSet<int>();
+    HashSet<int> negativeDiag = new HashSet<int>();
+    string[][] board = null;
+    public IList<IList<string>> SolveNQueens(int n) 
+    {
+        board = new string[n][];
+        for (int i = 0; i < n; i++)
+        {
+            board[i] = new string[n];
+            for (int j = 0; j < n; j++)
+            {
+              board[i][j] = ".";
+            }
+        }
+        
+        Backtracking(0, n);
+        return resList;
+    }
+    
+    public void Backtracking(int row, int n)
+    {
+        if(row == n)
+        {
+            var str = new List<string>();
+            for(int i = 0; i < n; i++)
+            {
+                str.Add(string.Join("", board[i]));
+            }
+            resList.Add(str);
+        }
+        
+        for(int c = 0; c < n; c++)
+        {
+            if(columns.Contains(c) || positiveDiag.Contains(row + c) || negativeDiag.Contains(row - c))
+            {
+                continue;
+            }
+            
+            columns.Add(c);
+            positiveDiag.Add(row + c);
+            negativeDiag.Add(row - c);
+            board[row][c] = "Q";
+            
+            Backtracking(row + 1, n);
+            
+            columns.Remove(c);
+            positiveDiag.Remove(row + c);
+            negativeDiag.Remove(row - c);
+            board[row][c] = ".";
+        }
+    }
+}

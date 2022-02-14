@@ -1,0 +1,30 @@
+public class Solution {
+    public IList<string> GenerateParenthesis(int n) 
+    {
+        var list = new List<string>();
+        var open = n;
+        var close = n;
+        var output = "";
+        SolveRecursion(open, close, list, output);
+        return list;
+    }
+    
+    public void SolveRecursion(int open, int close, IList<string> list, string output)
+    {
+        if(open == 0 && close == 0)
+        {
+            list.Add(output);
+            return;
+        }
+        if(open != 0)
+        {
+            var op1 = output + "(";
+            SolveRecursion(open-1, close, list, op1);
+        }
+        if(close > open)
+        {
+            var op2 = output + ")";
+            SolveRecursion(open, close -1, list, op2);
+        }
+    }
+}

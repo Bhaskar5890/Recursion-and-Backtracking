@@ -1,0 +1,36 @@
+public class Solution {
+    List<IList<int>> list = new List<IList<int>>();
+    public IList<IList<int>> SubsetsWithDup(int[] nums) 
+    {
+        Array.Sort(nums);
+        BackTrack(nums.ToList(), new List<int>());
+        HashSet<IList<int>> set = new HashSet<IList<int>>();
+        foreach(var l in list)
+        {
+            if (!set.Any(x => x.SequenceEqual(l)))
+            {
+              set.Add(l);
+            }
+        }
+        return set.ToList();
+    }
+    
+    public void BackTrack(IList<int> numsInput, IList<int> numsOutput)
+    {
+        if (numsInput.Count() == 0)
+        {
+            list.Add(numsOutput);
+        }
+
+        var output1 = new List<int>(numsOutput);
+        var output2 = new List<int>(numsOutput);
+
+        var val = numsInput[0];
+
+        output2.Add(numsInput[0]);
+        numsInput.Remove(val);
+
+        BackTrack(new List<int>(numsInput), output1);
+        BackTrack(new List<int>(numsInput), output2);
+    }
+}

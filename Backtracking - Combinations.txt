@@ -1,0 +1,24 @@
+public class Solution {
+    List<IList<int>> resList = new List<IList<int>>();
+    public IList<IList<int>> Combine(int n, int k) 
+    {
+        Backtracking(1, k, new List<int>(), n);
+        return resList;
+    }
+    
+    public void Backtracking(int index, int k, IList<int> current, int n)
+    {
+        if(current.Count() == k)
+        {
+            resList.Add(new List<int>(current));
+            return;
+        }
+        
+        for(int i = index; i <= n; i++)
+        {
+            current.Add(i);
+            Backtracking(i+1, k, current, n);
+            current.Remove(i);
+        }
+    }
+}

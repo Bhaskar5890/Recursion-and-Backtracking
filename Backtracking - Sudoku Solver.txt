@@ -1,0 +1,77 @@
+public class Solution {
+    Dictionary<(int,int), HashSet<char>> squares = new Dictionary<(int,int),HashSet<char>>();
+    Dictionary<int, HashSet<char>> rows = new Dictionary<int, HashSet<char>>();
+    Dictionary<int, HashSet<char>> cols = new Dictionary<int, HashSet<char>>();
+    string str = "123456789";
+    public void SolveSudoku(char[][] board) 
+    {    
+        int k = 0;
+        for(int r = 0; r < 3; r++)
+        {
+            for(int c = 0; c < 3; c++)
+            {
+                rows.Add(k, new HashSet<char>());
+                cols.Add(k, new HashSet<char>());
+                squares.Add((r,c), new HashSet<char>());
+                k++;
+            }
+        }
+        
+        for(int r = 0; r < 9; r++)
+        {
+            for(int c = 0; c < 9; c++)
+            {
+                if(board[r][c] != '.')
+                {
+                    rows[r].Add(board[r][c]);
+                    cols[c].Add(board[r][c]);
+                    squares[(r/3, c/3)].Add(board[r][c]);
+                }
+            }
+        }
+        
+        Backtracking(board, 0, 0);
+    }
+    
+    public bool Backtracking(char[][] board, int row, int col)
+    {
+        if(row == 9)
+        {
+            return true;
+        }
+        if(col == 9)
+        {
+            return Backtracking(board, row+1, 0);
+        }
+        
+        if(board[row][col] != '.')
+        {
+            return Backtracking(board, row, col+1);
+        }
+        
+        foreach(var c in str)
+        {
+            if(!IsNotValid(row, col, c))
+            {
+                rows[row].Add(c);
+                cols[col].Add(c);
+                squares[(row/3,col/3)].Add(c);
+                board[row][col] = c;
+                if(Backtracking(board, row, col + 1))
+                {
+                    return true;
+                }
+                rows[row].Remove(c);
+                cols[col].Remove(c);
+                squares[(row/3,col/3)].Remove(c);
+                board[row][col] = '.';
+            }
+        }
+        return false;
+    }
+    
+    public bool IsNotValid(int row, int col, char c)
+    {
+        return rows[row].Contains(c) || cols[col].Contains(c) || squares[(row/3, col/3)].Contains(c);
+    }
+}

@@ -1,0 +1,39 @@
+public class Solution {
+    List<IList<int>> resList = new List<IList<int>>();
+    public IList<IList<int>> PermuteUnique(int[] nums) 
+    {
+        Array.Sort(nums);
+        Backtracking(nums, 0);
+        return resList;
+    }
+    
+    public void Backtracking(int[] nums, int index)
+    {
+        if(index == nums.Length)
+        {
+            resList.Add(new List<int>(nums));
+            return;
+        }
+        
+        HashSet<int> set = new HashSet<int>();
+        
+        for(int i = index; i < nums.Length; i++)
+        {
+            if(set.Contains(nums[i]))
+            {
+                continue;
+            }
+            set.Add(nums[i]);
+            Swap(ref nums[i], ref nums[index]);
+            Backtracking(nums, index+1);
+            Swap(ref nums[i], ref nums[index]);
+        }
+    }
+    
+    public void Swap(ref int val1, ref int val2)
+    {
+        var temp = val1;
+        val1 = val2;
+        val2 = temp;
+    }
+}

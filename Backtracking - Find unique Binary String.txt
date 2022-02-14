@@ -1,0 +1,46 @@
+public class Solution {
+    HashSet<string> set = new HashSet<string>();
+    public string FindDifferentBinaryString(string[] nums) 
+    {
+        if(nums.Length == 0)
+        {
+            return null;
+        }
+        var strLength = nums[0].Length;
+        foreach(var str in nums)
+        {
+            set.Add(str);
+        }
+        
+        return Backtracking(0, new String(Enumerable.Repeat('0', strLength).ToArray()), strLength);
+    }
+    
+    public string Backtracking(int index, string current, int strLen)
+    {
+        if(index == strLen)
+        {
+            if(set.Contains(current))
+            {
+                return null;
+            }
+            else
+            {
+                return current;
+            }
+        }
+        
+        var res = Backtracking(index+1, current, strLen);
+        if(res != null)
+        {
+            return res;
+        }
+        var sb = new StringBuilder(current);
+        sb[index] = '1';
+        res = Backtracking(index+1, sb.ToString(), strLen);
+        if(res != null)
+        {
+            return res;
+        }
+        return res;
+    }
+}

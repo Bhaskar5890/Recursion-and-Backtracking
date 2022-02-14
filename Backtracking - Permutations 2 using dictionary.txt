@@ -1,0 +1,47 @@
+public class Solution {
+    List<IList<int>> resList = new List<IList<int>>();
+    public IList<IList<int>> PermuteUnique(int[] nums) 
+    {
+        Array.Sort(nums);
+        var dict = new Dictionary<int, int>();
+        //Create dictionary
+        foreach(var val in nums)
+        {
+            if(!dict.ContainsKey(val))
+            {
+                dict.Add(val, 1);
+            }
+            else
+            {
+                dict[val]++;
+            }
+        }
+        
+        Backtracking(dict, new List<int>(), nums);
+        return resList;
+    }
+    
+    public void Backtracking(IDictionary<int, int> dict, IList<int> current, int[] nums)
+    {
+        if(current.Count == nums.Length)
+        {
+            resList.Add(new List<int>(current));
+            return;
+        }
+        
+        foreach(var item in dict.Where(x => x.Value > 0))
+        {
+            var key = item.Key;
+            if(dict[key] > 0)
+            {
+                dict[key]--;
+                current.Add(key);
+            }
+            
+            Backtracking(dict, current, nums);
+            
+            dict[key]++;
+            current.RemoveAt(current.Count - 1);
+        }
+    }
+}

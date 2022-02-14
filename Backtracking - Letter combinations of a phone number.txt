@@ -1,0 +1,42 @@
+public class Solution {
+    List<string> resList = new List<string>();
+    Dictionary<char, string> dict = new Dictionary<char, string>();
+    public IList<string> LetterCombinations(string digits) 
+    {
+        if(digits.Length == 0)
+        {
+            return resList;
+        }
+        
+        CreateDigitsToChar();
+        
+        Backtracking(0, "", digits);
+        return resList;
+    }
+    
+    public void Backtracking(int index, string currentStr, string digits)
+    {
+        if(currentStr.Length == digits.Length)
+        {
+            resList.Add(currentStr);
+            return;
+        }
+        
+        foreach(var c in dict[digits[index]])
+        {
+            Backtracking(index+1, currentStr + c, digits);
+        }
+    }
+    
+    public void CreateDigitsToChar()
+    {
+        dict.Add('2', "abc");
+        dict.Add('3', "def");
+        dict.Add('4', "ghi");
+        dict.Add('5', "jkl");
+        dict.Add('6', "mno");
+        dict.Add('7', "pqrs");
+        dict.Add('8', "tuv");
+        dict.Add('9', "wxyz");
+    }
+}
